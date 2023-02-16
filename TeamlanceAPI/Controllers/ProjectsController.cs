@@ -23,7 +23,7 @@ namespace TeamlanceAPI.Controllers
         public async Task<IActionResult> GetProjects([FromQuery] PaginationFilter filter)
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-            var pagedData = await dbContext.Projects.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+            var pagedData = await dbContext.Projects.OrderBy(x => x.seriNo).Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize).ToListAsync();
             var totalRecord = await dbContext.Projects.CountAsync();
             //var response = await dbContext.Projects.ToListAsync();
